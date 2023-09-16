@@ -72,14 +72,6 @@ namespace Company.DAL.Migrations
                 table: "Auths",
                 columns: new[] { "Id", "Password", "StaffMemeberId", "UserName" },
                 values: new object[] { 2, "123456789", 2, "ahmed.abdelhady" });
-            migrationBuilder.InsertData(
-                table: "Staffs",
-                columns: new[] { "Id", "EmailAddress", "FullName", "Role", "Salary" },
-                values: new object[] { 3, "admin@admin.com", "Admin", "Admin", 20000.5m });
-            migrationBuilder.InsertData(
-                table: "Auths",
-                columns: new[] { "Id", "Password", "StaffMemeberId", "UserName" },
-                values: new object[] { 3, "Admin", 3, "admin.admin" });
             migrationBuilder.CreateIndex(
                 name: "IX_Auths_StaffMemeberId",
                 table: "Auths",

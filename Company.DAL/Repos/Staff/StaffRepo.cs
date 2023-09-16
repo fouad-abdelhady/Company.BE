@@ -32,7 +32,6 @@ namespace Company.DAL
         public List<Staff>? getAllManagers()
         {
            var managers =  _companyContext.Staffs.Where(s=> s.Role.ToLower() == "manager").ToList()??new List<Staff>();
-            Console.WriteLine(managers.First().EmailAddress);
             return managers;
         }
         //Level 1
@@ -51,8 +50,9 @@ namespace Company.DAL
             Staff? staff = _companyContext.Staffs
                     .Include(s => s.Manager)
                     .Include(s => s.TeamMembers).FirstOrDefault(s => s.Id == staffMemberId);
-            if (staff != null && staff.Role == "Employee" && staff.ManagerId != null)
-                staff.TeamMembers = GetTeamMembers(staff.ManagerId ?? 1, staff.Id);
+            if (staff != null && staff.Role.ToLower() == "employee" && staff.ManagerId != null)
+            staff.TeamMembers = GetTeamMembers(staff.ManagerId ?? 1, staff.Id);
+
             return staff;
         }
         public Staff? GetStaffMemberInfo(int staffMemeberId) => _companyContext.Staffs.FirstOrDefault(s => s.Id == staffMemeberId);
@@ -60,7 +60,11 @@ namespace Company.DAL
 
         public int GetStaffMembersCount()=>_companyContext.Staffs.Count();
 
-        private List<Staff>? GetTeamMembers(int managerId, int employeeId) => _companyContext.Staffs.Where(sm => sm.ManagerId == managerId && sm.Id != employeeId).ToList();
+        private List<Staff>? GetTeamMembers(int managerId, int employeeId) {
+            var employees = _companyContext.Staffs.Where(sm => sm.ManagerId == managerId && sm.Id != employeeId).ToList();
+ 
+            return employees;
+        }
 
         bool IStaffRepo.UpdateProfilePic(int userId, string newImage)
         {

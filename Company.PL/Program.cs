@@ -1,8 +1,10 @@
 using Company.BL.Managers.AuthManagers;
 using Company.BL.Managers.StaffManagers;
+using Company.BL.Managers.TaskManagers;
 using Company.DAL;
 using Company.DAL.Data.Context;
-using Company.PL.Filter;
+using Company.DAL.Repos.Task;
+using Company.PL.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -16,6 +18,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 builder.Services.AddCors(options => {
     options.AddPolicy(name:appOrigin, policy => {
         policy.AllowAnyOrigin();
@@ -33,14 +36,15 @@ builder.Services.AddDbContext<CompanyContext>(options
 #region Repos
 builder.Services.AddScoped<IStaffRepo, StaffRepo>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+builder.Services.AddScoped<ITaskRepo, TaskRepo>();
 #endregion
 #region Managers
 builder.Services.AddScoped<IStaffManager, StaffManager>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
-
+builder.Services.AddScoped<ITaskManager, TaskManager>();
+//builder.Services.AddSingleton<IConnectedUsersService, ConnectedUsersService>();
 #endregion
 #region Authentication
-
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = "basicAuth";
     options.DefaultChallengeScheme = "basicAuth";
@@ -69,8 +73,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-
 app.UseAuthentication();
 
 app.UseCors(appOrigin);
@@ -78,5 +80,7 @@ app.UseCors(appOrigin);
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<NewTaskAssignmentHub>("/NewTaskAssigned");
 
 app.Run();

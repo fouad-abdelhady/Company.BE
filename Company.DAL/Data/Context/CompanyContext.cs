@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Company.DAL.Data.Context
 {
@@ -12,13 +11,15 @@ namespace Company.DAL.Data.Context
     {
         public DbSet<Auth> Auths { get; set; }
         public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Models.Task> Tasks { get; set; }
         public CompanyContext(DbContextOptions<CompanyContext> options):base(options) {
             
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            modelBuilder.Entity<Staff>().HasData(getStaffList());
-            modelBuilder.Entity<Auth>().HasData(getAuthList());
+           modelBuilder.Entity<Auth>().HasData(getAuthList());
+           modelBuilder.Entity<Models.Task>().HasData(getTasksList());
         }
         private List<Auth> getAuthList() => new List<Auth>()
         {
@@ -33,5 +34,10 @@ namespace Company.DAL.Data.Context
             new Staff(){ Id=2, FullName="Ahmed Abdelhady Fouad", Role="Employee", Salary=4000.50, ManagerId=1, EmailAddress= "ahmed.abdelhady@egabi.com"},
             new Staff(){ Id=3, FullName="Admin", Role="Admin", Salary= 20000, EmailAddress="admin@admin.com" }
         };
+
+        private List<Models.Task> getTasksList() => new List<Models.Task>()
+        {
+            new Models.Task(){ Id=1, Title= "First Task", Description="First week task", CreatorId = 1, EmployeeId = 2 }
+        };   
     }
 }

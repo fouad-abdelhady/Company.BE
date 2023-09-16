@@ -25,6 +25,7 @@ namespace Company.PL.Controllers
         [Route("Profile")]
         [Authorize]
         public ActionResult<StaffProfileRead> GetStaffMemberProfile() {
+            Console.WriteLine("The Id is = "+ User.FindFirst("UserId"));
             if (int.TryParse(User.FindFirst("UserId").Value, out int userId))
                 return Ok(_staffManager.GetProfile(userId));
             return StatusCode(500);
