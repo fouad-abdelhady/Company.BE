@@ -10,7 +10,7 @@ namespace Company.BL.Managers.TaskManagers
 {
     public interface ITaskManager
     {
-        int AddTask(NewTaskReq newTask, int managerId);
+        TaskResContainer AddTask(NewTaskReq newTask, int managerId);
         ResultDto UpdateStatus(TaskStateUpdate taskStatusUpdate, int employeeId);
         ResultDto UpdateGrade(TaskStateUpdate taskGradeUpdate);
         /**
@@ -19,5 +19,7 @@ namespace Company.BL.Managers.TaskManagers
          * **/
         TasksRes GetEmployeeTasks(int employeeId, int page, int limit, int caller = 2);
         TasksRes GetCallerTasks(int employeeId, string role, int page, int limit);
+        int? GetUnseenTasksCount(int userId);
+        List<TaskRes> GetTaskByState(int employeeId, int state);
     }
 }

@@ -24,12 +24,13 @@ namespace Company.PL.Controllers
         [Authorize]
         [ManagerAuth]
         public async Task<ActionResult<TaskRes>> AddTask(NewTaskReq newTask) {
+
             int.TryParse(User.FindFirst("UserId").Value, out int managerId);
-            int newTasksCount = _taskManager.AddTask(newTask, managerId);
-            /*await _hubContext.Clients.
-                Client(ConnectedUsersService.GetInstance().GetConnectionId(newTask.EmployeeId)).
-                SendAsync("NotifyEmployee", newTasksCount);*/
-            return Ok(newTasksCount);
+            TaskResContainer newTasks = _taskManager.AddTask(newTask, managerId);
+            string? connectionId = ConnectedUsersService.GetInstance().GetConnectionId(newTask.EmployeeId);
+            if (connectionId !=null)
+                await _hubContext.Clients.Client(connectionId).SendAsync("NotifyEmployee", newTasks.tasksCount);
+            return Ok(newTasks.taskRes);
         }
 
         [HttpPut]
@@ -75,13 +76,23 @@ namespace Company.PL.Controllers
         }
 
         [HttpGet]
-        [Route("State/{state}")]
+        [Route("State")]
         [Authorize]
-        [EmployeeAuth]
-        public ActionResult<List<TaskRes>> GetTasksByState(int state) {
-            return Ok();
+        [ManagerAuth]
+        public ActionResult<List<TaskRes>> GetTasksByState([FromQuery]int employeeId,[FromQuery]int state) {
+            List<TaskRes> tasksList = _taskManager.GetTaskByState(employeeId, state);
+            return Ok(tasksList);
         }
 
+        [HttpGet]
+        [Route("UnseenCount")]
+        [Authorize]
+        [EmployeeAuth]
+        public ActionResult<int> GetUnseenTasksCount() {
+            int.TryParse(User.FindFirst("UserId").Value, out int userId);
+            int? unseenTasksCount = _taskManager.GetUnseenTasksCount(userId);
+            return Ok(unseenTasksCount??0);
+        }
 
     }
 }

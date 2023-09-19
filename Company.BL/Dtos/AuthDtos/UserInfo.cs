@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Company.BL.Dtos.AuthDtos
 {
-    public record UserInfo(string FullName, string Role, string Email, string? Image);
+    public record UserInfo(int Id,string FullName, string Role, string Email, string? Image);
 }

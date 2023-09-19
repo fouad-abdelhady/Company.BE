@@ -85,6 +85,7 @@ namespace Company.BL.Managers.StaffManagers
         {
             Staff staffMemeber = _staffRepo.GetStaffMemberInfo(StaffMemeberId);
             return new UserInfo(
+                Id: staffMemeber.Id,
                 FullName: staffMemeber.FullName, 
                 Role: staffMemeber.Role, 
                 Email: staffMemeber.EmailAddress, 

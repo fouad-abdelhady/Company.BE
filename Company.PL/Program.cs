@@ -21,9 +21,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddCors(options => {
     options.AddPolicy(name:appOrigin, policy => {
-        policy.AllowAnyOrigin();
+        policy.WithOrigins("http://localhost:4200");
+        //policy.AllowAnyOrigin();
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 });
 //builder.Services.AddScoped<ManagerAuth>();

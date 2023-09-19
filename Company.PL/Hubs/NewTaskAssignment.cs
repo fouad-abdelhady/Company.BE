@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Company.PL.Hubs
 {
-    [Authorize]
+   // [Authorize]
     public class NewTaskAssignmentHub : Hub
     {
         private ConnectedUsersService _connectedUsersService;
@@ -14,17 +14,17 @@ namespace Company.PL.Hubs
         public override async Task OnConnectedAsync()
         {
 
-            int? userId = _extractUserId();
+          /*  int? userId = _extractUserId();
             if (userId != null) _connectedUsersService.AddUser(userId??-1, Context.ConnectionId);
             await Clients.All.SendAsync("User Joined", $"Employee Id = {userId}");
-            await base.OnConnectedAsync();
+            await base.OnConnectedAsync();*/
         }
         [HubMethodName("NotifyEmployee")]
         public async Task NotifyEmployee(int employeeId)
         {
-            string? connectionId = _connectedUsersService.GetConnectionId(employeeId);
-            if (connectionId == null) return;
-            await Clients.Client(connectionId).SendAsync("RefreshTasks", "NewTaskAdded");
+            // int? userId = _extractUserId();
+            Console.WriteLine("Employee Registered" + employeeId);
+            if (employeeId != null) _connectedUsersService.AddUser(employeeId, Context.ConnectionId);
         }
         public override async Task OnDisconnectedAsync(Exception? exception)
         {

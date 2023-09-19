@@ -35,6 +35,7 @@ namespace Company.BL.Managers.AuthManagers
             if (SmAuth == null) return null;
             var accessToken = GenerateToken(SmAuth);
             return new LoginRead(
+                    Id: SmAuth.StaffMemberId,
                     FullName: SmAuth.StaffMember!.FullName,
                     Role: SmAuth.StaffMember.Role,
                     Email: SmAuth.StaffMember.EmailAddress,
