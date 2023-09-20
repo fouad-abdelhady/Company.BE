@@ -86,7 +86,7 @@ namespace Company.DAL.Repos.Task
 
         public bool UpdateGrade(int taskId, int state)
         {
-            Data.Models.Task? task = _companyContext.Tasks.FirstOrDefault(tsk => tsk.Id == taskId && tsk.Status == 3);
+            Data.Models.Task? task = _companyContext.Tasks.FirstOrDefault(tsk => tsk.Id == taskId && tsk.Status >= 3);
             if (task == null) return false;
             task.Grade = state;
             task.Status = 4;
