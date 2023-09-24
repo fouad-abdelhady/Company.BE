@@ -18,7 +18,7 @@ public class Auth
     [StringLength(100,MinimumLength =5)]
     public string UserName { get; set; } 
     [Required]
-    [StringLength(32, MinimumLength = 8)]
+    [MaxLength(50), MinLength(8)]
     public string Password { get; set; }
     public int StaffMemberId { get; set; }
     public Staff? StaffMember { get; set; }

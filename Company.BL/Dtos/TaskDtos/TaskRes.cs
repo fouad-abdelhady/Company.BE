@@ -9,11 +9,17 @@ namespace Company.BL.Dtos.TaskDtos
 {
     public record TaskRes(
         int Id, 
-        string Title, 
-        string Description, 
+        string Title,
+        string ArTitle,
+        string Description,
+        string ArDescription,
         int Status, 
         StaffRead? StaffMember, 
-        int? Grade, 
+        int? Grade,
+        string? Changes,
         DateTime? CreatedAt, 
-        DateTime? LastStateChange);
+        DateTime? LastStateChange,
+        string? ArChanges
+        );
+       
 }

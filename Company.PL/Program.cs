@@ -1,8 +1,10 @@
 using Company.BL.Managers.AuthManagers;
+using Company.BL.Managers.NotificationManagers;
 using Company.BL.Managers.StaffManagers;
 using Company.BL.Managers.TaskManagers;
 using Company.DAL;
 using Company.DAL.Data.Context;
+using Company.DAL.Repos.Notification;
 using Company.DAL.Repos.Task;
 using Company.PL.Hubs;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddCors(options => {
     options.AddPolicy(name:appOrigin, policy => {
-        policy.WithOrigins("http://localhost:4200");
+        policy.WithOrigins("http://localhost:4200", "http://localhost:3000");
         //policy.AllowAnyOrigin();
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
@@ -39,11 +41,13 @@ builder.Services.AddDbContext<CompanyContext>(options
 builder.Services.AddScoped<IStaffRepo, StaffRepo>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<ITaskRepo, TaskRepo>();
+builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 #endregion
 #region Managers
 builder.Services.AddScoped<IStaffManager, StaffManager>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<ITaskManager, TaskManager>();
+builder.Services.AddScoped<INotificationManager, NotificationManager>();
 //builder.Services.AddSingleton<IConnectedUsersService, ConnectedUsersService>();
 #endregion
 #region Authentication

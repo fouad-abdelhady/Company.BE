@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace Company.BL.Dtos.TaskDtos
 {
-    public record NewTaskReq(string Title, string Description, int EmployeeId);
+    public record NewTaskReq(
+        string Title,
+        string ArTitle,
+        string Description, 
+        string ArDescription,
+        int EmployeeId);
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Company.DAL.Migrations
 {
     [DbContext(typeof(CompanyContext))]
-    [Migration("20230914122851_TasksTable")]
-    partial class TasksTable
+    [Migration("20230923174718_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace Company.DAL.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StaffMemberId")
                         .HasColumnType("int");
@@ -56,23 +56,96 @@ namespace Company.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Password = "123456789",
+                            Password = "25f9e794323b453885f5181f1b624d0b",
                             StaffMemberId = 1,
                             UserName = "fouad.abdelhady"
                         },
                         new
                         {
                             Id = 2,
-                            Password = "123456789",
+                            Password = "25f9e794323b453885f5181f1b624d0b",
                             StaffMemberId = 2,
                             UserName = "ahmed.abdelhady"
                         },
                         new
                         {
                             Id = 3,
-                            Password = "Admin",
+                            Password = "e3afed0047b08059d0fada10f400c1e5",
                             StaffMemberId = 3,
                             UserName = "admin.admin"
+                        });
+                });
+
+            modelBuilder.Entity("Company.DAL.Data.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PosterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecieverId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StateChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PosterId");
+
+                    b.HasIndex("RecieverId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("Notifications");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArDescription = "تمت اضافتها بواسطة فؤاد",
+                            ArTitle = "مهمه جديدة اضيفت",
+                            CreatedAt = new DateTime(2023, 9, 23, 20, 47, 17, 776, DateTimeKind.Local).AddTicks(99),
+                            Description = "added by Fouad",
+                            PosterId = 1,
+                            RecieverId = 2,
+                            StateChangedAt = new DateTime(2023, 9, 23, 20, 47, 17, 776, DateTimeKind.Local).AddTicks(103),
+                            Status = 0,
+                            TaskId = 1,
+                            Title = "first task added",
+                            Type = 0
                         });
                 });
 
@@ -148,6 +221,17 @@ namespace Company.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ArDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Changes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -163,9 +247,6 @@ namespace Company.DAL.Migrations
 
                     b.Property<int?>("Grade")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("SeenAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StateChangedAt")
                         .HasColumnType("datetime2");
@@ -189,11 +270,13 @@ namespace Company.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 9, 14, 15, 28, 51, 119, DateTimeKind.Local).AddTicks(840),
+                            ArDescription = "مهمة الاسبوع الأول",
+                            ArTitle = "أول مهمة",
+                            CreatedAt = new DateTime(2023, 9, 23, 20, 47, 17, 776, DateTimeKind.Local).AddTicks(13),
                             CreatorId = 1,
                             Description = "First week task",
                             EmployeeId = 2,
-                            StateChangedAt = new DateTime(2023, 9, 14, 15, 28, 51, 119, DateTimeKind.Local).AddTicks(885),
+                            StateChangedAt = new DateTime(2023, 9, 23, 20, 47, 17, 776, DateTimeKind.Local).AddTicks(58),
                             Status = 0,
                             Title = "First Task"
                         });
@@ -208,6 +291,33 @@ namespace Company.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("StaffMember");
+                });
+
+            modelBuilder.Entity("Company.DAL.Data.Models.Notification", b =>
+                {
+                    b.HasOne("Company.DAL.Data.Models.Staff", "Poster")
+                        .WithMany()
+                        .HasForeignKey("PosterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Company.DAL.Data.Models.Staff", "Reciever")
+                        .WithMany()
+                        .HasForeignKey("RecieverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Company.DAL.Data.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Poster");
+
+                    b.Navigation("Reciever");
+
+                    b.Navigation("Task");
                 });
 
             modelBuilder.Entity("Company.DAL.Data.Models.Staff", b =>

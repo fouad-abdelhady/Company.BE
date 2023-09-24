@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Company.BL.Dtos.AuthDtos
+namespace Company.BL.Dtos.CommonDtos
 {
-    public record ResultDto(bool State, string Message, int? OptionalNum = -1);
+    public record TextTranslation( string Original, string Translation);
 }

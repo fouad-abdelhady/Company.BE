@@ -7,6 +7,7 @@ namespace Company.PL.Filter
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            
             if (!context.HttpContext.Request.Query.TryGetValue("page", out var pageValue) || 
                 !context.HttpContext.Request.Query.TryGetValue("limit", out var limitValue)) {
                 _getResponse(context, "Page or Limit cannot be null");

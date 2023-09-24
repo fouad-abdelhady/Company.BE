@@ -14,7 +14,12 @@ namespace Company.DAL.Data.Models
         [Required]
         public string Title { get; set; }
         [Required]
+        public string ArTitle { get; set; }
+
+        [Required]
         public string Description { get; set; }
+        [Required]
+        public string ArDescription { get; set; }
         [Required]
         public int CreatorId { get; set; }
         [Required]
@@ -22,7 +27,8 @@ namespace Company.DAL.Data.Models
         [Required]
         public int Status { get; set; } = 0;
         public int? Grade { get; set; }
-        public DateTime? SeenAt { get; set; }
+        public string? Changes { get; set; } = null;
+        public string? ArChanges { get; set; } = null;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime StateChangedAt { get; set; } = DateTime.Now;
 
