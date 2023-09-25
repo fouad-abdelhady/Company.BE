@@ -19,9 +19,10 @@ namespace Company.DAL.Repos.Notification
             TASK_CHANGE_REQUEST = 3,
             OTHER_ACTIONS = 4
     }
-        List<Data.Models.Notification> GetNotifications(int status, int callerId);
+        List<Data.Models.Notification> GetNotifications(int status, int callerId, int page, int limit);
         int GetUnseenNotificationsCount(int callerId);
         int AddNotification(Data.Models.Notification newNotification);
         bool SetUserNotificationsToSeen(int recieverId);
+        int GetNotificationsCount(int callerId);
     }
 }

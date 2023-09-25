@@ -18,7 +18,7 @@ namespace Company.BL.Managers.NotificationManagers
             OTHER_ACTIONS = 4
         }
         int GetUnseenNotificationsCount(int callerId);
-        List<NotificationRes> GetUnseenNotificationsList(int status, int callerId);
+        PaginatedNotificationRes GetUnseenNotificationsList(int status, int callerId, int page, int limit);
         void SendNotification();
         public int AddNotification(int PosterId, int RecieverId, int TaskId, int NotificationType);
     }

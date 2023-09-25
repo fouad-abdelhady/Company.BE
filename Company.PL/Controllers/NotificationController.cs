@@ -28,9 +28,10 @@ namespace Company.PL.Controllers
         [Route("{status}")]
         [Authorize]
         [ManagerEmployeeAuth]
-        public ActionResult<List<NotificationRes>> GetNotifications(int status) {
+        [PaginationValidator]
+        public ActionResult<PaginatedNotificationRes> GetNotifications(int status, [FromQuery] int page, [FromQuery] int limit) {
             int.TryParse(User.FindFirst("UserId").Value, out int callerId);
-            List<NotificationRes> notifications = _notificationManager.GetUnseenNotificationsList(status, callerId);
+            PaginatedNotificationRes notifications = _notificationManager.GetUnseenNotificationsList(status, callerId, page, limit);
             return Ok(notifications);
         }
     }

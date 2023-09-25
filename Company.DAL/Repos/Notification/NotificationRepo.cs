@@ -29,19 +29,35 @@ namespace Company.DAL.Repos.Notification
             return GetUnseenNotificationsCount(newNotification.RecieverId);
         }
 
-        public List<Data.Models.Notification> GetNotifications(int status, int callerId)
+        public List<Data.Models.Notification> GetNotifications(int status, int callerId, int page, int limit)
         {
+            if(status == 0)
+                return _companyContext.Notifications
+                    .Include(notification => notification.Poster)
+                    .Include(notification => notification.Task)
+                    .Where(notification => notification.Status == status && notification.RecieverId == callerId)
+                    .OrderByDescending(notification => notification.Id)
+                    .ToList();
+            int skip = (page - 1) * limit;
             return _companyContext.Notifications
-                .Include(notification => notification.Poster)
-                .Include(notification => notification.Task)
-                .Where(notification => notification.Status == status && notification.RecieverId == callerId)
-                .OrderByDescending(notification => notification.Id)
-                .ToList();
+                    .Include(notification => notification.Poster)
+                    .Include(notification => notification.Task)
+                    .Where(notification => notification.Status == status && notification.RecieverId == callerId)
+                    .OrderByDescending(notification => notification.Id)
+                    .Skip(skip)
+                    .Take(limit)
+                    .ToList();
         }
         public int GetUnseenNotificationsCount(int callerId)
         {
             return _companyContext.Notifications
                 .Where(notification => notification.RecieverId == callerId && notification.Status == INotificationRepo.UNSEEN)
+                .Count();
+        }
+
+        public int GetNotificationsCount(int callerId) {
+            return _companyContext.Notifications
+                .Where(notification => notification.RecieverId == callerId)
                 .Count();
         }
 

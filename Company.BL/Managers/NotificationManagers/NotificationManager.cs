@@ -29,14 +29,31 @@ namespace Company.BL.Managers.NotificationManagers
             return notificationsCount;
         }
 
-        public List<NotificationRes> GetUnseenNotificationsList(int status, int callerId)
+        public PaginatedNotificationRes GetUnseenNotificationsList(int status, int callerId, int page, int limit)
         {
-            List<Notification> notifications = _notificationRepo.GetNotifications(status, callerId);
+            List<Notification> notifications = _notificationRepo.GetNotifications(status, callerId, page, limit);
             if (status == INotificationRepo.UNSEEN && notifications.Any()) {
                 UpdateTaskStatus(notifications);
                 _notificationRepo.SetUserNotificationsToSeen(callerId);
             }
-            return notifications.Select(notification => TransformToNotificationRes(notification)).ToList();
+            var notificationsList = notifications.Select(notification => TransformToNotificationRes(notification)).ToList();
+            PageInfo pageInfo;
+            if (status == INotificationRepo.UNSEEN)
+            {
+                pageInfo = new PageInfo(Next: null, Previous: null, PagesCount: 1, Current: 1);
+            }
+            else {
+                int count = _notificationRepo.GetNotificationsCount(callerId);
+                int pagesCount = (int)Math.Ceiling((double)count / limit);
+                int? nextPage = page >= pagesCount ? null : page + 1;
+                int? previous = page <= 1 ? null : page - 1;
+                int current = page;
+                pageInfo = new PageInfo(Next: nextPage, Previous: previous, PagesCount: pagesCount, Current: current);
+            }
+            return new PaginatedNotificationRes(
+                    PageInfo: pageInfo,
+                    Notifications: notificationsList
+            );
         }
 
         public void SendNotification()
