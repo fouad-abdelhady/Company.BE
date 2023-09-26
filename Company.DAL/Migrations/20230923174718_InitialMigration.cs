@@ -44,7 +44,7 @@ namespace Company.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(70)", maxLength: 50, nullable: false),
                     StaffMemberId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -143,8 +143,8 @@ namespace Company.DAL.Migrations
                 columns: new[] { "Id", "Password", "StaffMemberId", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "25f9e794323b453885f5181f1b624d0b", 1, "fouad.abdelhady" },
-                    { 3, "e3afed0047b08059d0fada10f400c1e5", 3, "admin.admin" }
+                    { 1, "AEXlKRtVnu4CV0NCdew1/LLxVE9CRnYwcGj/FogvIgc=", 1, "fouad.abdelhady" },
+                    { 3, "75QMdA3cYucwYsSC//QzN8mH24xDLBw5yrQTzpLSOK0=", 3, "admin.admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -155,7 +155,7 @@ namespace Company.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Auths",
                 columns: new[] { "Id", "Password", "StaffMemberId", "UserName" },
-                values: new object[] { 2, "25f9e794323b453885f5181f1b624d0b", 2, "ahmed.abdelhady" });
+                values: new object[] { 2, "AEXlKRtVnu4CV0NCdew1/LLxVE9CRnYwcGj/FogvIgc=", 2, "ahmed.abdelhady" });
 
             migrationBuilder.InsertData(
                 table: "Tasks",

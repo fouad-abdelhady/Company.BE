@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Uploads\images\" />
     <Folder Include="wwwroot\js\signalr\dist\browser\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

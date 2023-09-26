@@ -11,6 +11,7 @@ namespace Company.BL.Managers.StaffManagers
         StaffProfileRead GetProfile(int StaffMemeberId);
         UserInfo? GetUserInfo(int StaffMemeberId);
         ResultDto UpdateProfilePic(int v, ImageUpdateReq imageUpdateReq);
+        ResultDto UpdateProfilePic(int userId, string image, string fullPath);
         List<StaffRead>? GetAllManagers();
     }
 }

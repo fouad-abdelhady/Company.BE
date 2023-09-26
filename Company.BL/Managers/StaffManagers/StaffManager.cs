@@ -97,5 +97,11 @@ namespace Company.BL.Managers.StaffManagers
             bool success = _staffRepo.UpdateProfilePic(userId, imageUpdateReq.NewImage);
             return new ResultDto(State: success, Message: success ? imageUpdateReq.NewImage : "Something Went Wrong, Try Agin!");
         }
+
+        public ResultDto UpdateProfilePic(int userId, string image, string fullPath)
+        {
+            bool success = _staffRepo.UpdateProfilePic(userId, image);
+            return new ResultDto(State: success, Message: success ? fullPath : "Something Went Wrong, Try Agin!");
+        }
     }
 }

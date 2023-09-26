@@ -8,7 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Company.BL.Managers.AuthManagers
 {
@@ -31,6 +32,7 @@ namespace Company.BL.Managers.AuthManagers
 
         public LoginRead? LogIn(string username, string password)
         {
+            password = GetHashedPassword(password);
             var SmAuth = _authRepo.LogIn(username, password);
             if (SmAuth == null) return null;
             var accessToken = GenerateToken(SmAuth);
@@ -51,7 +53,7 @@ namespace Company.BL.Managers.AuthManagers
 
         public ResultDto Register(EmployeeRegisterationReq auth, int staffMemberId)
         {
-           Auth newAuth = new Auth() { UserName= auth.UserName, Password = auth.InitPassword, StaffMemberId= staffMemberId };
+           Auth newAuth = new Auth() { UserName= auth.UserName, Password = GetHashedPassword(auth.InitPassword), StaffMemberId= staffMemberId };
             var result = _authRepo.Register(newAuth);
             if (result) return new ResultDto(State: result, Message: "Error Occured While Registering");
             return new ResultDto(State: result, Message: "Created Successfully");
@@ -75,6 +77,18 @@ namespace Company.BL.Managers.AuthManagers
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(accessTokenObj);
+        }
+
+        string GetHashedPassword(string password) {
+            byte[] salt = Encoding.ASCII.GetBytes("cf0jGhtiz7sdGtej+0WgBA==");
+        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+        password: password!,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

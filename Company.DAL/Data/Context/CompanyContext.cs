@@ -25,9 +25,9 @@ namespace Company.DAL.Data.Context
         }
         private List<Auth> getAuthList() => new List<Auth>()
         {
-            new Auth(){Id=1, UserName= "fouad.abdelhady", Password="25f9e794323b453885f5181f1b624d0b", StaffMemberId=1 },
-            new Auth(){Id=2,UserName= "ahmed.abdelhady", Password="25f9e794323b453885f5181f1b624d0b", StaffMemberId=2 },
-            new Auth(){Id=3, UserName="admin.admin", Password="e3afed0047b08059d0fada10f400c1e5", StaffMemberId=3 }
+            new Auth(){Id=1, UserName= "fouad.abdelhady", Password="AEXlKRtVnu4CV0NCdew1/LLxVE9CRnYwcGj/FogvIgc=", StaffMemberId=1 },
+            new Auth(){Id=2,UserName= "ahmed.abdelhady", Password="AEXlKRtVnu4CV0NCdew1/LLxVE9CRnYwcGj/FogvIgc=", StaffMemberId=2 },
+            new Auth(){Id=3, UserName="admin.admin", Password="75QMdA3cYucwYsSC//QzN8mH24xDLBw5yrQTzpLSOK0=", StaffMemberId=3 }
 
         };
         private List<Staff> getStaffList()=> new List<Staff>()
