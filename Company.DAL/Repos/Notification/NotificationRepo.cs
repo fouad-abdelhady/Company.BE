@@ -82,6 +82,7 @@ namespace Company.DAL.Repos.Notification
             try
             {
                 notification.Status = notificationStatus;
+                notification.StateChangedAt = DateTime.Now;
                 _companyContext.SaveChanges();
                 return notification.TaskId;
             }
