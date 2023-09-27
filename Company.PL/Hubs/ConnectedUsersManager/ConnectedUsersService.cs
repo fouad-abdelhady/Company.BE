@@ -1,13 +1,14 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Company.PL.Hubs
+namespace Company.PL.Hubs.ConnectedUsersManager
 {
     public class ConnectedUsersService : IConnectedUsersService
     {
         static private ConnectedUsersService _connectedUserService;
 
         private ConnectedUsersService() { }
-        static public  ConnectedUsersService GetInstance() {
+        static public ConnectedUsersService GetInstance()
+        {
             if (_connectedUserService == null) _connectedUserService = new ConnectedUsersService();
             return _connectedUserService;
         }
@@ -19,7 +20,7 @@ namespace Company.PL.Hubs
 
         public string? GetConnectionId(int userId)
         {
-            if(_userConnections.TryGetValue(userId, out var connectionId)) 
+            if (_userConnections.TryGetValue(userId, out var connectionId))
                 return connectionId;
             return null;
         }

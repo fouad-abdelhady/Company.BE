@@ -1,4 +1,5 @@
-﻿using Company.BL.Dtos.CommonDtos;
+﻿using Company.BL.Dtos.AuthDtos;
+using Company.BL.Dtos.CommonDtos;
 using Company.BL.Dtos.NotificationDtos;
 using Company.BL.Dtos.StaffDtos;
 using Company.DAL.Data.Models;
@@ -33,8 +34,8 @@ namespace Company.BL.Managers.NotificationManagers
         {
             List<Notification> notifications = _notificationRepo.GetNotifications(status, callerId, page, limit);
             if (status == INotificationRepo.UNSEEN && notifications.Any()) {
-                UpdateTaskStatus(notifications);
-                _notificationRepo.SetUserNotificationsToSeen(callerId);
+                //UpdateTaskStatus(notifications);
+                //_notificationRepo.SetUserNotificationsToSeen(callerId);
             }
             var notificationsList = notifications.Select(notification => TransformToNotificationRes(notification)).ToList();
             PageInfo pageInfo;
@@ -79,8 +80,12 @@ namespace Company.BL.Managers.NotificationManagers
                     ArTitle: GetNotificationTitle(notification.Type, notification.Task).Translation,
                     Description: GetNotificationDescription(notification.Type, notification.Poster, notification.Task).Original,
                     ArDescription: GetNotificationDescription(notification.Type, notification.Poster, notification.Task).Translation,
+                    TaskTitle: notification.Task.Title,
+                    TaskId: notification.TaskId,
+                    Status: notification.Status,
                     Poster: FormStaffMemberRead(notification.Poster),
-                    CreatedAt: notification.CreatedAt
+                    CreatedAt: notification.CreatedAt,
+                    SeenAt: notification.StateChangedAt
                 );
         }
 
@@ -126,6 +131,14 @@ namespace Company.BL.Managers.NotificationManagers
                     return new TextTranslation(Original: $"{task.Title}", Translation: $"{task.ArTitle}");
             }
             return new TextTranslation(Original: "", Translation: "");
+        }
+
+        public ResultDto SetTaskStatus(int notificationId, int status, int callerId )
+        {
+            int result = _notificationRepo.SetTaskStatus(notificationId, status);
+            int unseenNotificationsCount = GetUnseenNotificationsCount(callerId);
+            if (result > 0) _taskRepo.SetTaskToSeen(result);
+           return  new ResultDto(State: result != 0, Message: result != 0? "Updated Successfully": "Error While Updating", OptionalNum: unseenNotificationsCount);
         }
     }
 }

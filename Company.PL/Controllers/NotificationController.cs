@@ -1,6 +1,8 @@
-﻿using Company.BL.Dtos.NotificationDtos;
+﻿using Company.BL.Dtos.AuthDtos;
+using Company.BL.Dtos.NotificationDtos;
 using Company.BL.Managers.NotificationManagers;
 using Company.PL.Filter;
+using Company.PL.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,15 @@ namespace Company.PL.Controllers
             int.TryParse(User.FindFirst("UserId").Value, out int callerId);
             PaginatedNotificationRes notifications = _notificationManager.GetUnseenNotificationsList(status, callerId, page, limit);
             return Ok(notifications);
+        }
+        [HttpPut]
+        [Route("UpdateStatus")]
+        [Authorize]
+        [ManagerEmployeeAuth]
+        [UpdateNotificationState]
+        public ActionResult<ResultDto> UpdateNotifcationStatus([FromQuery] int notificationId/*, [FromQuery] int status*/) {
+            int.TryParse(User.FindFirst("UserId").Value, out int callerId);
+            return _notificationManager.SetTaskStatus(notificationId, 1, callerId);
         }
     }
 }

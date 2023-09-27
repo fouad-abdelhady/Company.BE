@@ -1,4 +1,5 @@
-﻿using Company.BL.Dtos.NotificationDtos;
+﻿using Company.BL.Dtos.AuthDtos;
+using Company.BL.Dtos.NotificationDtos;
 using Company.DAL.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,6 @@ namespace Company.BL.Managers.NotificationManagers
         PaginatedNotificationRes GetUnseenNotificationsList(int status, int callerId, int page, int limit);
         void SendNotification();
         public int AddNotification(int PosterId, int RecieverId, int TaskId, int NotificationType);
+        public ResultDto SetTaskStatus(int notificationId, int status, int callerId);
     }
 }

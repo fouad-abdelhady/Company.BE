@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Company.PL.Hubs.ConnectedUsersManager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace Company.PL.Hubs
 {
-   // [Authorize]
+    // [Authorize]
     public class NewTaskAssignmentHub : Hub
     {
         private ConnectedUsersService _connectedUsersService;
@@ -23,7 +24,7 @@ namespace Company.PL.Hubs
         public async Task NotifyEmployee(int employeeId)
         {
             // int? userId = _extractUserId();
-            Console.WriteLine("Employee Registered" + employeeId);
+            Console.WriteLine("Employee Registered" + employeeId + Context.ConnectionId);
             if (employeeId != null) _connectedUsersService.AddUser(employeeId, Context.ConnectionId);
         }
         public override async Task OnDisconnectedAsync(Exception? exception)

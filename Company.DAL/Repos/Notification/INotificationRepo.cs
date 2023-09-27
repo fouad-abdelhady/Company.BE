@@ -24,5 +24,6 @@ namespace Company.DAL.Repos.Notification
         int AddNotification(Data.Models.Notification newNotification);
         bool SetUserNotificationsToSeen(int recieverId);
         int GetNotificationsCount(int callerId);
+        int SetTaskStatus(int notificationId, int status);
     }
 }

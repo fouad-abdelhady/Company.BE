@@ -12,9 +12,13 @@ namespace Company.BL.Dtos.NotificationDtos
         string Title, 
         string ArTitle, 
         string Description, 
-        string ArDescription, 
+        string ArDescription,
+        string TaskTitle,
+        int TaskId,
+        int Status,
         StaffRead Poster, 
-        DateTime CreatedAt
+        DateTime CreatedAt,
+        DateTime SeenAt
         );
 }
 

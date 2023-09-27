@@ -19,6 +19,7 @@ namespace Company.DAL.Repos.Task
         int? GetUnssenTasksCount(int userId);
         List<Data.Models.Task> GetTasksByState(int employeeId, int state);
         public bool SetTasksToSeen(int employeeId);
+        public bool SetTaskToSeen(int taskId);
         bool updateChanges(int taskId, string changes, string arChanges);
     }
 }

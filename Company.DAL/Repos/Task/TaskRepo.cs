@@ -173,5 +173,19 @@ namespace Company.DAL.Repos.Task
                 return false;
             }
         }
+
+        public bool SetTaskToSeen(int taskId)
+        {
+            var task = _companyContext.Tasks.FirstOrDefault(tsk => tsk.Id == taskId);
+           
+            try {
+                if (task.Status >= SEEN) return true;
+                task.Status = SEEN;
+                _companyContext.SaveChanges();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
     }
 }

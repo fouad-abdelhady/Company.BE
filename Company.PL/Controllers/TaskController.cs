@@ -4,6 +4,7 @@ using Company.BL.Managers.NotificationManagers;
 using Company.BL.Managers.TaskManagers;
 using Company.PL.Filter;
 using Company.PL.Hubs;
+using Company.PL.Hubs.ConnectedUsersManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace Company.PL.Hubs
+﻿namespace Company.PL.Hubs.ConnectedUsersManager
 {
     public interface IConnectedUsersService
     {

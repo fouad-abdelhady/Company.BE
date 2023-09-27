@@ -65,6 +65,7 @@ namespace Company.DAL.Repos.Notification
             var unseenNotificationsList = _companyContext.Notifications.Where(notification => notification.RecieverId == recieverId && notification.Status == INotificationRepo.UNSEEN).ToList();
             foreach (var notification in unseenNotificationsList) {
                 notification.Status = INotificationRepo.SEEN;
+                notification.StateChangedAt = DateTime.Now;
             }
             try
             {
@@ -74,6 +75,22 @@ namespace Company.DAL.Repos.Notification
             catch (Exception ex) {
                 return false;
             }
+        }
+
+        public int SetTaskStatus(int notificationId, int notificationStatus = 1) {
+            var notification = _companyContext.Notifications.Include(note=> note.Task).FirstOrDefault(notification => notification.Id == notificationId);
+            try
+            {
+                notification.Status = notificationStatus;
+                _companyContext.SaveChanges();
+                return notification.TaskId;
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return 0;
+            }
+            
+
         }
     }
 }
